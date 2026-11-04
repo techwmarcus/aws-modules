@@ -177,3 +177,31 @@ resource "aws_security_group" "private" {
     Name = "private-sg"
   }
 }
+
+resource "aws_security_group" "db-sg" { 
+  name = "db-sg"
+  description = "Allow 3306 and ssh traffic"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    from_port = 22
+    to_port   = 22
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port = 3306
+    to_port   = 3306
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 3306
+    to_port   = 3306
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "DB-SG"
+  }
+
+
+}
